@@ -33,6 +33,22 @@ module SharedSettings
         raise SettingNotFoundError
       end
 
+      def all
+        setting_keys = @client.scan_each(match: prefixed_name('*')).to_a
+
+        setting_keys.map do |key|
+          formatted_key_name = key.split("#{PREFIX}:").last
+
+          get(formatted_key_name)
+        end
+      end
+
+      def delete(name)
+        @client.del(prefixed_name(name))
+
+        true
+      end
+
       private
 
       def prefixed_name(name)

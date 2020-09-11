@@ -1,5 +1,6 @@
-require "shared/settings/version"
+require "shared_settings/version"
+require "shared_settings/setting"
 
-class SharedSettings
+module SharedSettings
 
 end

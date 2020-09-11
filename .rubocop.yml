@@ -12,3 +12,6 @@ Style/Documentation:
 
 Metrics/AbcSize:
   Enabled: false
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent

@@ -1,4 +1,4 @@
-require_relative 'lib/shared/settings/version'
+require_relative 'lib/shared_settings/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "shared-settings-rb"

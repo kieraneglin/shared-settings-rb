@@ -16,20 +16,14 @@ module SharedSettings
 
     def initialize(name, raw_value)
       @name = name.to_s
-      @raw_value = raw_value
-
-      build_setting!
+      @type = determine_type(raw_value)
+      @value = serialize_raw_value(raw_value)
     end
 
     private
 
-    def build_setting!
-      @type = determine_type
-      @value = serialize_raw_value
-    end
-
-    def determine_type
-      case @raw_value
+    def determine_type(raw_value)
+      case raw_value
       when Numeric
         'number'
       when String
@@ -39,25 +33,25 @@ module SharedSettings
       when Range
         'range'
       else
-        raise ArgumentError.new("`#{@raw_value}` must be a number, string, boolean, or range")
+        raise ArgumentError.new("`#{raw_value}` must be a number, string, boolean, or range")
       end
     end
 
-    def serialize_raw_value
+    def serialize_raw_value(raw_value)
       case type
       when 'string'
-        @raw_value
+        raw_value
       when 'number'
-        @raw_value.to_s
+        raw_value.to_s
       when 'boolean'
-        @raw_value ? '1' : '0'
+        raw_value ? '1' : '0'
       when 'range'
-        determine_range_bounds
+        determine_range_bounds(raw_value)
       end
     end
 
-    def determine_range_bounds
-      head, tail = @raw_value.to_a.values_at(0, -1)
+    def determine_range_bounds(raw_value)
+      head, tail = raw_value.to_a.values_at(0, -1)
 
       if !head.is_a?(Numeric) || !tail.is_a?(Numeric)
         raise ArgumentError.new('Only ascending purely numeric ranges are accepted')

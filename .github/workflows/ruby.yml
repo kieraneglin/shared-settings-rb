@@ -1,0 +1,25 @@
+name: Ruby CI
+
+on: push
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Check linting
+      run: bundle exec rubocop
+
+    - name: Run tests
+      run: bundle exec rake test

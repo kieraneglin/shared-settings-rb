@@ -17,11 +17,11 @@ module SharedSettings
       when :number
         serialized_value.include?('.') ? serialized_value.to_f : serialized_value.to_i
       when :boolean
-        serialized_value === '1'
+        serialized_value == '1'
       when :range
         rebuild_range(serialized_value)
       else
-        raise ArgumentError.new("Unable to deserialize `#{type}` type")
+        raise ArgumentError, "Unable to deserialize `#{type}` type"
       end
     end
 

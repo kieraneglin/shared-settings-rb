@@ -33,7 +33,7 @@ module SharedSettings
       when Range
         'range'
       else
-        raise ArgumentError.new("`#{raw_value}` must be a number, string, boolean, or range")
+        raise ArgumentError, "`#{raw_value}` must be a number, string, boolean, or range"
       end
     end
 
@@ -54,7 +54,7 @@ module SharedSettings
       head, tail = raw_value.to_a.values_at(0, -1)
 
       if !head.is_a?(Numeric) || !tail.is_a?(Numeric)
-        raise ArgumentError.new('Only ascending purely numeric ranges are accepted')
+        raise ArgumentError, 'Only ascending purely numeric ranges are accepted'
       end
 
       [head, tail].join(',')

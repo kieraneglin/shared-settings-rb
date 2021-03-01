@@ -15,5 +15,13 @@ module SharedSettings
 
       assert_equal :test, config.default
     end
+
+    def test_encryption_key_can_be_set
+      config = SharedSettings::Configuration.new
+
+      config.encryption_key = 'supersecret'
+
+      assert_equal 'supersecret', config.encryption_key
+    end
   end
 end

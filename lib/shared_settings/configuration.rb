@@ -1,5 +1,7 @@
 module SharedSettings
   class Configuration
+    attr_accessor :encryption_key
+
     def initialize
       @default = -> { raise ArgumentError, 'Default configuration must be set' }
     end

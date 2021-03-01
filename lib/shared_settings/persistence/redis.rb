@@ -7,13 +7,12 @@ module SharedSettings
         @client = client
       end
 
-      def put(name, value)
-        serialized_setting = SharedSettings::SerializedSetting.new(name, value)
-
+      def put(serialized_setting)
         @client.hset(prefixed_name(serialized_setting.name), {
           'name' => serialized_setting.name,
           'type' => serialized_setting.type,
-          'value' => serialized_setting.value
+          'value' => serialized_setting.value,
+          'encrypted' => serialized_setting.encrypted ? '1' : '0'
         })
 
         serialized_setting.name
@@ -26,20 +25,19 @@ module SharedSettings
           return SharedSettings::Setting.new(
             stored_value['name'],
             stored_value['type'],
-            stored_value['value']
+            stored_value['value'],
+            stored_value['encrypted'] == '1'
           )
         end
 
         raise SettingNotFoundError
       end
 
-      def all
+      def all_keys
         setting_keys = @client.scan_each(match: prefixed_name('*')).to_a
 
         setting_keys.map do |key|
-          formatted_key_name = key.split("#{PREFIX}:").last
-
-          get(formatted_key_name)
+          key.split("#{PREFIX}:").last
         end
       end
 

@@ -12,12 +12,19 @@ module SharedSettings
     #  boolean: "1" or "0"
     #  range: "low,high". eg: "1,5" *inclusive*
 
-    attr_reader :name, :type, :value
+    attr_reader :name, :type, :value, :encrypted
 
-    def initialize(name, raw_value)
+    def initialize(name, raw_value, encrypt: false)
       @name = name.to_s
       @type = determine_type(raw_value)
-      @value = serialize_raw_value(raw_value)
+      @encrypted = encrypt
+
+      if encrypt
+        stringified_value = serialize_raw_value(raw_value)
+        @value = encrypt_value(stringified_value)
+      else
+        @value = serialize_raw_value(raw_value)
+      end
     end
 
     private
@@ -58,6 +65,17 @@ module SharedSettings
       end
 
       [head, tail].join(',')
+    end
+
+    def encrypt_value(string_value)
+      encrypter = SharedSettings::Utilities::Encryption.new(encryption_key)
+      iv, cipher_text = encrypter.encrypt(string_value)
+
+      "#{iv}|#{cipher_text}"
+    end
+
+    def encryption_key
+      SharedSettings.configuration.encryption_key
     end
   end
 end

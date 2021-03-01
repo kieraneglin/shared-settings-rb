@@ -13,8 +13,8 @@ module SharedSettings
       )
     end
 
-    def all_keys
-      ['a']
+    def all
+      [get('a'), get('b')]
     end
   end
 end

@@ -60,17 +60,18 @@ module SharedSettings
         end
       end
 
-      def test_all_keys_returns_all_settings
+      def test_all_returns_all_settings
         @adapter.put(SharedSettings::SerializedSetting.new('a', 1))
         @adapter.put(SharedSettings::SerializedSetting.new('b', true))
         @adapter.put(SharedSettings::SerializedSetting.new('c', 'asdf'))
 
-        fetched_settings = @adapter.all_keys
+        fetched_settings = @adapter.all
 
         assert_equal 3, fetched_settings.length
-        assert fetched_settings.include?('a')
-        assert fetched_settings.include?('b')
-        assert fetched_settings.include?('c')
+
+        fetched_settings.each do |setting|
+          assert setting.instance_of?(SharedSettings::Setting)
+        end
       end
 
       def test_redis_deletion

@@ -27,9 +27,5 @@ module SharedSettings
     def test_get_returns_hydrated_value
       assert_equal 1, @instance.get('a')
     end
-
-    def test_all_returns_all_values
-      assert_equal [1], @instance.all
-    end
   end
 end

@@ -19,12 +19,8 @@ module SharedSettings
       storage_adapter.get(name).value
     end
 
-    def all
-      storage_adapter.all_keys.map do |key|
-        get(key)
-      end
-    end
-
-    def_delegators :storage_adapter, :delete
+    def_delegators :storage_adapter,
+      :all,
+      :delete
   end
 end

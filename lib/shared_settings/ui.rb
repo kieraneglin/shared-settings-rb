@@ -1,7 +1,4 @@
 module SharedSettings
-  class Ui
-    def self.wow
-      'neat'
-    end
+  class UI
   end
 end

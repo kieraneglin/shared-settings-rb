@@ -2,6 +2,9 @@ PATH
   remote: .
   specs:
     shared-settings (0.1.0)
+    shared-settings-ui (0.1.0)
+      rack (>= 2.0, < 3)
+      shared-settings (~> 0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -11,6 +14,7 @@ GEM
     parallel (1.19.2)
     parser (2.7.1.4)
       ast (~> 2.4.1)
+    rack (2.2.3)
     rainbow (3.0.0)
     rake (12.3.3)
     redis (4.2.2)
@@ -39,6 +43,7 @@ DEPENDENCIES
   redis (~> 4.0)
   rubocop
   shared-settings!
+  shared-settings-ui!
 
 BUNDLED WITH
    2.1.4

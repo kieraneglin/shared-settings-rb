@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shared-settings-rb (0.1.0)
+    shared-settings (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -38,7 +38,7 @@ DEPENDENCIES
   rake (~> 12.0)
   redis (~> 4.0)
   rubocop
-  shared-settings-rb!
+  shared-settings!
 
 BUNDLED WITH
    2.1.4

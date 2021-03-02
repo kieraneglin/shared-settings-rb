@@ -1,7 +1,7 @@
 require_relative 'lib/shared_settings/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'shared-settings-rb'
+  spec.name          = 'shared-settings'
   spec.version       = SharedSettings::VERSION
   spec.authors       = ['Kieran Eglin']
 

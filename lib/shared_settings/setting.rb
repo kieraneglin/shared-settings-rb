@@ -1,11 +1,18 @@
 module SharedSettings
   class Setting
-    attr_reader :name, :type, :value
+    attr_reader :name, :type, :value, :encrypted
 
-    def initialize(name, type, serialized_value)
+    def initialize(name, type, serialized_value, encrypted)
       @name = name.to_sym
       @type = type.to_sym
-      @value = deserialize_value(serialized_value)
+      @encrypted = encrypted
+
+      if encrypted
+        decrypted_value = decrypt_value(serialized_value)
+        @value = deserialize_value(decrypted_value)
+      else
+        @value = deserialize_value(serialized_value)
+      end
     end
 
     private
@@ -30,6 +37,17 @@ module SharedSettings
       lower, upper = serialized_value.split(',').map(&:to_i)
 
       lower..upper
+    end
+
+    def decrypt_value(string_value)
+      encrypter = SharedSettings::Utilities::Encryption.new(encryption_key)
+      iv, cipher_text = string_value.split('|')
+
+      encrypter.decrypt(iv, cipher_text)
+    end
+
+    def encryption_key
+      SharedSettings.configuration.encryption_key
     end
   end
 end

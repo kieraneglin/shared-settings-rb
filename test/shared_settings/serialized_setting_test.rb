@@ -2,6 +2,12 @@ require 'test_helper'
 
 module SharedSettings
   class SerializedSettingTest < Minitest::Test
+    def setup
+      SharedSettings.configure do |config|
+        config.encryption_key = ENV['SHARED_SETTINGS_KEY']
+      end
+    end
+
     def test_types_are_assigned
       assert_equal 'number', serialized_setting(:a, 1).type
       assert_equal 'number', serialized_setting(:a, 1.2).type
@@ -54,10 +60,17 @@ module SharedSettings
       end
     end
 
+    def test_encrypting_settings
+      setting = serialized_setting(:a, 1, encrypt: true)
+
+      assert setting.encrypted
+      assert setting.value.include?('|')
+    end
+
     private
 
-    def serialized_setting(name, value)
-      SharedSettings::SerializedSetting.new(name, value)
+    def serialized_setting(name, value, encrypt: false)
+      SharedSettings::SerializedSetting.new(name, value, encrypt: encrypt)
     end
   end
 end

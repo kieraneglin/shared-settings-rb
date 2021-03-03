@@ -2,7 +2,7 @@
 
 Shared Settings is a simple library for managing runtime settings in Ruby with optional support for Encryption and Elixir.
 
-Heavily inspired by [Fun with Flags][fwf] and [Flipper][flipper]
+Heavily inspired by [Fun with Flags][fwf] and [Flipper][flipper].
 
 ## Installation
 
@@ -34,8 +34,27 @@ Once installed, the Gem must be configured.  This would normally exist as a file
 SharedSettings.configure do |config|
   config.default { SharedSettings.new(@adapter) }
   # Optional. Can be generaed with `SharedSettings::Utilities::Encryption.generate_aes_key`
+  # Store this somewhere secure out of VCS
   config.encryption_key = '...'
 end
+```
+
+The optional UI works with any Rack-based webserver. Assuming you're using Rails, set up your `routes.rb` like so:
+
+```ruby
+mount SharedSettings::UI.app, at: '/shared-settings'
+```
+
+This doesn't provide any form of protection - anyone could visit this URL.  To add something like basic auth, you can pass a block like so:
+
+```ruby
+shared_settings_app = SharedSettings::UI.app do |builder|
+  builder.use Rack::Auth::Basic do |username, password|
+    # Perform validation
+  end
+end
+
+mount shared_settings_app, at: '/shared-settings'
 ```
 
 Elixir support is provided by the [shared-settings-ex][ss-ex] library.
@@ -47,6 +66,15 @@ The intention for this library is to also create an [accompanying Elixir Library
 This means that a Rails app could change a runtime setting in an Elixir app and vice-versa.  They would also share a single UI dashboard if configured, allowing a one-stop location to manage parallel apps or to help migration efforts. Of course, this library could be used with Elixir or Ruby individually.
 
 The API/storage conventions are designed to be simple enough that additional libraries in other languages (eg: Go) could be created to allow further interop between applications as long as there was a shared data source.
+
+## Encryption
+
+Encryption is implemented as AES256.  If you choose to provide an encryption key, specified setting values within your storage adapter will be encrypted.  Nothing else about the setting, including its name, will be encrypted.  Once an encrypted setting is requested via `get` it's automatically decrypted so the plaintext value is returned.
+
+```ruby
+SharedSettings.put(:client_id, 'supersecret', encrypt: true)
+SharedSettings.get(:client_id) # => 'supersecret'
+```
 
 ## Usage
 
@@ -66,7 +94,7 @@ All types are serialized as strings to be held within the storage adapter.
 
 ```ruby
 SharedSettings.put(:signups_enabled, true)
-SharedSettings.put(:referral_bonus, 52)
+SharedSettings.put(:referral_bonus, 52, encrypt: true)
 ```
 
 `put` will overwrite old settings if the provided name already exists.  This means there's no method for updating - replacement is the way to go:

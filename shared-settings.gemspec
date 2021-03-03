@@ -5,9 +5,8 @@ Gem::Specification.new do |spec|
   spec.version       = SharedSettings::VERSION
   spec.authors       = ['Kieran Eglin']
 
-  # TODO: update
-  spec.summary       = 'Summary here'
-  spec.description   = 'Description here'
+  spec.summary       = 'Easily manage runtime settings'
+  spec.description   = 'Manage runtime and encrypt settings for your Ruby app with optional support for Elixir'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 

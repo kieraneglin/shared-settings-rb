@@ -13,6 +13,7 @@ module SharedSettings
       app = ->(_) { [200, { 'Content-Type' => 'text/html' }, ['']] }
       builder = Rack::Builder.new
 
+      yield builder if block_given?
       builder.use(SharedSettings::UI::Middleware)
       builder.run(app)
 

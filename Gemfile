@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in shared-settings.gemspec
-gemspec
+gemspec name: 'shared-settings'
+gemspec name: 'shared-settings-ui'
 
 gem 'minitest', '~> 5.0'
 gem 'rake', '~> 12.0'

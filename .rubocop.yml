@@ -18,3 +18,12 @@ Layout/FirstHashElementIndentation:
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
+
+Naming/FileName:
+  Enabled: false
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false

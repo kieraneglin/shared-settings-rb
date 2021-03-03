@@ -8,24 +8,24 @@ module SharedSettings
       end
     end
 
+    def test_self_deserialize_value
+      assert_equal 123, SharedSettings::Setting.deserialize_value('123', 'number')
+      assert_equal(-123, SharedSettings::Setting.deserialize_value('-123', 'number'))
+      assert_equal 12.3, SharedSettings::Setting.deserialize_value('12.3', 'number')
+
+      assert_equal '', SharedSettings::Setting.deserialize_value('', 'string')
+      assert_equal 'asd', SharedSettings::Setting.deserialize_value('asd', 'string')
+
+      assert_equal true, SharedSettings::Setting.deserialize_value('1', 'boolean')
+      assert_equal false, SharedSettings::Setting.deserialize_value('0', 'boolean')
+
+      assert_equal 1..3, SharedSettings::Setting.deserialize_value('1,3', 'range')
+      assert_equal(-1..4, SharedSettings::Setting.deserialize_value('-1,4', 'range'))
+    end
+
     def test_name_and_type_become_symbols
       assert_equal :a, setting('a', 'number', '1', false).name
       assert_equal :number, setting('a', 'number', '1', false).type
-    end
-
-    def test_values_are_deserialized
-      assert_equal 123, setting('a', 'number', '123', false).value
-      assert_equal(-123, setting('a', 'number', '-123', false).value)
-      assert_equal 12.3, setting('a', 'number', '12.3', false).value
-
-      assert_equal '', setting('b', 'string', '', false).value
-      assert_equal 'asd', setting('b', 'string', 'asd', false).value
-
-      assert_equal true, setting('c', 'boolean', '1', false).value
-      assert_equal false, setting('c', 'boolean', '0', false).value
-
-      assert_equal 1..3, setting('d', 'range', '1,3', false).value
-      assert_equal (-1..4), setting('d', 'range', '-1,4', false).value
     end
 
     def test_unsupported_types_raise_error
@@ -41,6 +41,17 @@ module SharedSettings
 
       assert setting.encrypted
       assert_equal 1, setting.value
+    end
+
+    def test_to_h
+      setting = setting('a', 'number', '1', false)
+
+      setting_hash = setting.to_h
+
+      assert setting_hash[:name] == setting.name
+      assert setting_hash[:value] == setting.value
+      assert setting_hash[:type] == setting.type
+      assert setting_hash[:encrypted] == setting.encrypted
     end
 
     private

@@ -45,11 +45,9 @@ module SharedSettings
         private
 
         def create_or_update_setting(name, type, value, encrypted)
-          setting = SharedSettings::Setting.new(name, type, value, false)
-
           SharedSettings.put(
-            setting.name,
-            setting.value,
+            name,
+            SharedSettings::Setting.deserialize_value(value, type),
             encrypt: !!encrypted
           )
         end

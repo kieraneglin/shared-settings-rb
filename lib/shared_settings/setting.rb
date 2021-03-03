@@ -15,6 +15,15 @@ module SharedSettings
       end
     end
 
+    def to_h
+      {
+        name: name,
+        type: type,
+        value: value,
+        encrypted: encrypted
+      }
+    end
+
     private
 
     def deserialize_value(serialized_value)

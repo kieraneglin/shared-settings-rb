@@ -21,3 +21,9 @@ Layout/ArgumentAlignment:
 
 Naming/FileName:
   Enabled: false
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false

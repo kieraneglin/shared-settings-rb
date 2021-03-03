@@ -1,6 +1,6 @@
 # Shared Settings (Ruby)
 
-Shared Settings is a simple library for managing runtime settings in Ruby with optional support for Encryption and Elixir.
+Shared Settings is a simple library for managing runtime settings in Ruby with optional support for encryption and Elixir.
 
 Heavily inspired by [Fun with Flags][fwf] and [Flipper][flipper].
 

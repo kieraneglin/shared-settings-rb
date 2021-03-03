@@ -5,9 +5,8 @@ Gem::Specification.new do |spec|
   spec.version       = SharedSettings::VERSION
   spec.authors       = ['Kieran Eglin']
 
-  # TODO: update
-  spec.summary       = 'Summary here'
-  spec.description   = 'Description here'
+  spec.summary       = 'UI for shared-settings'
+  spec.description   = 'A UI management interface for the shared-settings Gem'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 
